@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel</title>
+    <script src="https://kit.fontawesome.com/bcfe279ebb.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+   <section>
+        <button class="moving left"><i class="fas fa-angle-left"></i></button>
+        <button class="moving right"><i class="fas fa-angle-right"></i></button>
+        <div class="container">
+            <div class="elements">
+                <div class="text">
+                    <h1>First slide</h1>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="elements">
+                <div class="text">
+                    <h1>Second slide</h1>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="elements">
+                <div class="text">
+                    <h1>Third slide</h1>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="elements">
+                <div class="text">
+                    <h1>Fourth slide</h1>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="elements">
+                <div class="text">
+                    <h1>Fifth slide</h1>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="small-buttons first-small-button clicked-button" onclick="pickButtons(0)"></button>
+            <button class="small-buttons second-small-button" onclick="pickButtons(1)"></button>
+            <button class="small-buttons third-small-button" onclick="pickButtons(2)"></button>
+            <button class="small-buttons fourth-small-button" onclick="pickButtons(3)"></button>
+            <button class="small-buttons fifth-small-button" onclick="pickButtons(4)"></button>
+        </div>
+    </section>
+    <script src="/js/main.js"></script>
+  </body>
+  </html>
