@@ -1,16 +1,30 @@
 import React, {Component} from 'react';
 import {getMovies} from "../services/fakeMovieService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
+import {paginate} from "../utils/paginate";
+import {getGenres} from "../services/fakeGenreService";
+import ListGroup from "./common/listGroup";
 
 
 class Movies extends Component {
     state = {
-        movies: getMovies()
+        movies: [],
+        pageSize: 4,
+        currentPage: 1,
+        genres: [],
+        selectedGenreId: null,
+        filteredMovies: []
     };
 
+    componentDidMount() {
+        const genres = [{name: "All Movies"}, ...getGenres()]
+        this.setState({movies: getMovies(), genres});
+    }
+
     handleDelete(movie) {
-        const clonedMovies = this.state.movies.filter(m => m._id !== movie._id);
-        this.setState({movies: clonedMovies});
+        const movies = this.state.movies.filter(m => m._id !== movie._id);
+        this.setState({movies});
 
     };
     handleLike = (movie) => {
@@ -19,16 +33,32 @@ class Movies extends Component {
         movies[index] = {...movie};
         movies[index].isLiked = !movies[index].isLiked;
         this.setState({movies});
+    };
+
+    handlePageChange = page => {
+        this.setState({currentPage : page})
+    }
+    handleGenreSelect = genre => {
+        this.setState({selectedGenreId : genre._id, currentPage: 1});
     }
 
     render() {
         const {length: count} = this.state.movies;
+        const {pageSize, currentPage, movies: allMovies, genres, selectedGenreId} = this.state;
         if (count === 0) { 
             return <p className="mt-4">There are no movies in the database.</p>;
         }
+        const filteredMovies = selectedGenreId ? allMovies.filter(m => m.genre._id === selectedGenreId) : allMovies;
+        const movies = paginate(filteredMovies, currentPage, pageSize);
+
         return (
-            <React.Fragment>
-                <p className="mt-4">Showing {count} movies in the database.</p>
+            <div className="row">
+                <div className="col-2">
+                    <ListGroup items={genres} selectedItemId={selectedGenreId} onItemSelect={this.handleGenreSelect}/>
+                </div>
+                
+                <div className="col-10">
+                <p className="mt-4">Showing {filteredMovies.length} movies in the database.</p>
             
                 <table className="table">
                     <thead>
@@ -42,7 +72,7 @@ class Movies extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.movies.map(movie => <tr key={movie._id}>
+                        {movies.map(movie => <tr key={movie._id}>
                             <td>{movie.title}</td>
                             <td>{movie.genre.name}</td>
                             <td>{movie.numberInStock}</td>
@@ -52,21 +82,12 @@ class Movies extends Component {
                             </tr>)}
                         </tbody>
                 </table>
-            </React.Fragment>
+                <Pagination itemsCount={filteredMovies.length} pageSize={pageSize} currentPage={currentPage} onPageChange={this.handlePageChange}/>
+                </div>
+            </div>
             );
     }
 }
 
 export default Movies;
 
-
-function A(x){
-    ////
-}
-
-
-function B(){
-    A({});
-}
-
-B();
